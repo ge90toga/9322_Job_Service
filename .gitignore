@@ -1,0 +1,5 @@
+/bin/
+/target/
+/.idea/
+*.db
+/test/e2e-test/node_modules
