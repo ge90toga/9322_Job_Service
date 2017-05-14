@@ -3,13 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.tutorial.springboot.angular2.starter</groupId>
-	<artifactId>angular2</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.seek.api</groupId>
+	<artifactId>9322-job-service</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
-	<name>angular2</name>
-	<description>Spring boot, angular-2, jwt</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -21,6 +18,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<!--docker-->
+		<docker.image.prefix>badbanana</docker.image.prefix>
+		<spring.boot.version>1.3.5.RELEASE</spring.boot.version>
 	</properties>
 
 	<dependencies>
@@ -85,13 +85,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--  Hot deploy 热部署  -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional> <!-- Dependency will not pass through 表示依赖不会传递 -->
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -99,10 +92,29 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!--docker-->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
 				<configuration>
-					<fork>true</fork> <!-- enable devtools 如果没有该配置，devtools不会生效 -->
+					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+					<!-- [docker-machine env] retrieve host, certPath -->
+					<dockerHost>https://192.168.99.100:2376</dockerHost>
+					<dockerCertPath>/Users/langley/.docker/machine/machines/default</dockerCertPath>
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
