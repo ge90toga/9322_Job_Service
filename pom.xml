@@ -103,7 +103,7 @@
 					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
 					<!-- [docker-machine env] retrieve host, certPath -->
 					<dockerHost>https://192.168.99.100:2376</dockerHost>
-					<dockerCertPath>/Users/langley/.docker/machine/machines/default</dockerCertPath>
+					<dockerCertPath>/Users/linus/.docker/machine/machines/default</dockerCertPath>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
